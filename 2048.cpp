@@ -13,3 +13,35 @@ void NewGame () // Funkce Nové hry - Nuluje Herní Pole
 }
 
 void printBoardMatrix () // Tisk herního pole
+{
+    for (int s = 0 ; s < 4; ++s) {
+    for (int r = 0; r < 4; ++r)
+        if (GameBoardMatrix[s][r] == 0)
+            {
+                printf(" "); 
+            }
+            else
+            {
+                printf (" %d ", GameBoardMatrix[s][r]);
+            }
+            printf ("\n");
+    }
+}
+
+int main () 
+{
+    while (true)
+    {
+        printBoardMatrix(); // Tiskni Hrací Pole
+        char input;  // Vstup 
+        scanf(" %c", &input); // Uživatelský vstup
+        if ( input == 'n')  // Pokud je vstup n začni novou hru
+        {
+          NewGame();  
+        }
+        else if (input == 'q') // Pokud je vstup q vypni hru
+        {
+            break;
+        }
+    }
+}
