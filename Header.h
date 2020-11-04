@@ -5,3 +5,7 @@ void printBoardMatrix();
 int random2();
 int move();
 int controls();
+int gamecontrols();
+
+void left();
+

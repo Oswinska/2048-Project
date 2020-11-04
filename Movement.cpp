@@ -6,29 +6,53 @@
 #include "Header.h"
 #define getch() _getch()
 
+
 /*int move()
 {
 
 }
 */
-int controls() // Keyboard controls
+int controls() // Keyboard controls - for MainMenu
 {
 	unsigned int key;
 		key = getch();
+        if (key == 0 || key == 0xE0) {
+            key = getch();
+        }
 		return key;
 }
-
-
-void left() // Move numbers in Array to the left - Ignore Merging
+int gamecontrols()
 {
+    
+    int input = controls();
 
+    if (input == 27) // ESC
+    {
+        return 0;
+    }
+    else if (input == 72) {
 
+       // up();
+    }
+    else if (input == 80)
+    {
+       //down();
+    }
+    else if (input == 75)
+    {
+        left();
+        random2();
+    }
+    else if (input == 77)
+    {
+        //right();
+    }
+    else
+    {
+        gamecontrols;
+        // Dont quit on me 
+    }
+ 
 
 }
 
-/*void right()
-
-void up()
-
-void down()
-*/
