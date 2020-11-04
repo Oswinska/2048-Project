@@ -1,6 +1,8 @@
 #include <iostream>
 #include <windows.h>
-#define getch() _getch()
+#include <stdlib.h> 
+#include <time.h>
+#include "Header.h"
 int GameBoardMatrix[4][4];
 
 void printBoardMatrix() // Print Board - c  Column, l Line
@@ -20,14 +22,43 @@ void printBoardMatrix() // Print Board - c  Column, l Line
     }
 }
 
+int random2() // Randomly generate num 2 on an empty space 
+{
+   srand(time(NULL));
+    int c = rand() % 4;
+    int l = rand() % 4;
+    bool nezapsan = true;
+    while (nezapsan == true)
+    {
+        if (GameBoardMatrix[c][l] == 0)
+        {
+            GameBoardMatrix[c][l] = 2;
+
+            system("cls");
+            printBoardMatrix();
+            nezapsan = false;
+
+        }
+        else
+        {
+            random2();
+            nezapsan = false;
+        }
+    }
+    return 0;
+}
+
 int mainmenu() // Main menu
 {
+    system("cls");
     printf("2048\nNew game: n\nContinue game: c\nLeaderboard: l\nQuit : q\n");
 
-    char input; // User Input in Main Menu 
-    scanf_s(" %c", &input, 1);
+    //char input; // User Input in Main Menu - Old Code
+    int input; 
+    //scanf_s(" %c", &input, 1); - Old Code
+    input = controls();
     bool inprogress;
-    if (input == 'n') // Play new Game
+    if (input == 110) // Play new Game
     {
         inprogress = true;
         printBoardMatrix();
@@ -39,19 +70,27 @@ int mainmenu() // Main menu
         }
         mainmenu();
     }
-    else if (input == 'c') // Continue Game
+    else if (input == 99 ) // Continue Game
     {
         inprogress = true;
         printBoardMatrix();
-        while (true)
+        while (inprogress == true)
         {
-            // ContinueGame();
+            //ContinueGame;
+            controls();
             Sleep(5000);
             inprogress = false;
         }
         mainmenu();
     }
-    else if (input == 'q') // Quit game
+    else if (input == 108) // Leaderboard 
+    {
+        system("cls");
+        printf("Lmao leaderboarda here");
+        Sleep(5000);
+        mainmenu();
+    }
+    else if (input == 27) // Quit game
     {
         return 0;
     }
@@ -59,5 +98,5 @@ int mainmenu() // Main menu
 
 void game() // Main Game Script - put all things in here, Do not bloat code with copying this to ContinueGame, load state and call game
 {
-
+ 
 }
