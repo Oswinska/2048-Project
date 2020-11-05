@@ -2,10 +2,11 @@
 void game();
 int mainmenu();
 void printBoardMatrix();
-int random2();
-int move();
+void random2();
 int controls();
 int gamecontrols();
-
+//Controls
+void up();
+void down();
 void left();
-
+void right();

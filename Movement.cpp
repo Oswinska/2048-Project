@@ -6,12 +6,6 @@
 #include "Header.h"
 #define getch() _getch()
 
-
-/*int move()
-{
-
-}
-*/
 int controls() // Keyboard controls - for MainMenu
 {
 	unsigned int key;
@@ -21,6 +15,7 @@ int controls() // Keyboard controls - for MainMenu
         }
 		return key;
 }
+
 int gamecontrols()
 {
     
@@ -32,11 +27,13 @@ int gamecontrols()
     }
     else if (input == 72) {
 
-       // up();
+       up();
+       random2();
     }
     else if (input == 80)
     {
-       //down();
+        down();
+        random2();
     }
     else if (input == 75)
     {
@@ -45,14 +42,14 @@ int gamecontrols()
     }
     else if (input == 77)
     {
-        //right();
+        right();
+        random2();
     }
     else
     {
-        gamecontrols;
+        gamecontrols();
         // Dont quit on me 
     }
  
 
 }
-

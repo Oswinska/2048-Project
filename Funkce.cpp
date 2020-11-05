@@ -5,48 +5,41 @@
 #include "Header.h"
 int GameBoardMatrix[4][4];
 
-void printBoardMatrix() // Print Board - c  Column, l Line
+void printBoardMatrix() // Print Board - y Up, Down,  x - Left, Right
 {
-    for (int c = 0; c < 4; ++c)
+    system("cls");
+    for (int y = 0; y < 4; ++y)
     {
-        for (int l = 0; l < 4; ++l)
-            if (GameBoardMatrix[c][l] == 0) // if 0 print dot 
+        for (int x = 0; x < 4; ++x)
+            if (GameBoardMatrix[x][y] == 0) // if 0 print dot 
             {
                 printf(" . ");
             }
             else
             {
-                printf(" %d ", GameBoardMatrix[c][l]); // Print numbers in matrix 
+                printf(" %d ", GameBoardMatrix[x][y]); // Print numbers in matrix 
             }
         printf("\n"); // New line if line in matrix has numbers or dots
     }
 }
 
-int random2() // Randomly generate num 2 on an empty space 
+void random2()
 {
-   srand(time(NULL));
-   Sleep(1);
-    int c = rand() % 4;
-    int l = rand() % 4;
-    bool nezapsan = true;
-    while (nezapsan == true)
+    srand(time(NULL));
+    Sleep(1);
+    int x = rand() % 4;
+    int y = rand() % 4;
+
+    if (GameBoardMatrix[x][y] == 0)
     {
-        if (GameBoardMatrix[c][l] == 0)
-        {
-            GameBoardMatrix[c][l] = 2;
-
-            system("cls");
-            printBoardMatrix();
-            nezapsan = false;
-
-        }
-        else
-        {
-            random2();
-            nezapsan = false;
-        }
+        GameBoardMatrix[x][y] = 2;
+        
+        printBoardMatrix();
     }
-    return 0;
+    else
+        random2();
+
+
 }
 
 int mainmenu() // Main menu
@@ -108,27 +101,76 @@ void game() // Main Game Script - put all things in here, Do not bloat code with
     }
 }
 
-void left() // Move numbers in Array to the left - Ignore Merging
+void up() // Move numbers in Array up - ignore merging
 {
-    for (int c = 0; c < 4; c++)       // Scan Matrix  c - column l - line
-        for (int l = 0; l < 4; l++)
-        {
-            if (!GameBoardMatrix[c][l])    // If tile is empty
-            {
-                for (int k = l + 1; k < 4; k++)  // 
-                    if (GameBoardMatrix[c][k])
-                    {
-                        GameBoardMatrix[c][l] = GameBoardMatrix[c][k]; // Move the non-zero element to the empty tile
-                        GameBoardMatrix[c][k] = 0;          // Assign the non-zero element with zero
 
+    for (int x = 0; x < 4; x++)       // Traverse from Top to bottom of a column
+        for (int y = 0; y < 4; y++)
+        {
+            if (!GameBoardMatrix[x][y])    // If tile is empty
+            {
+                for (int k = y + 1; k < 4; k++)  // Traverse below to find a non-zero element
+                    if (GameBoardMatrix[x][k])
+                    {
+                        GameBoardMatrix[x][y] = GameBoardMatrix[x][k]; // Move the non-zero element to the empty tile
+                        GameBoardMatrix[x][k] = 0;          // Assign the non-zero element with zero
+                        printBoardMatrix();
                     }
             }
         }
 }
 
-/*void right()
+void down() //Move Numbers in Array down - Ignore Merging
+{
 
-void up()
+    for (int x = 3; x >= 0; x--)       // Traverse from Top to bottom of a column
+        for (int y = 3; y >= 0; y--)
+        {
+            if (!GameBoardMatrix[x][y])    // If tile is empty
+            {
+                for (int k = y - 1; k >= 0; k--)  // Traverse below to find a non-zero element
+                    if (GameBoardMatrix[x][k])
+                    {
+                        GameBoardMatrix[x][y] = GameBoardMatrix[x][k]; // Move the non-zero element to the empty tile
+                        GameBoardMatrix[x][k] = 0;          // Assign the non-zero element with zero
+                        printBoardMatrix();
+                    }
+            }
+        }
+}
 
-void down()
-*/
+void left() // Move numbers in Array to the left - Ignore Merging
+{
+    for (int y = 0; y < 4; y++)       // Scan Matrix  c - column l - line
+        for (int x = 0; x < 4; x++)
+        {
+            if (!GameBoardMatrix[x][y])    // If tile is empty
+            {
+                for (int k = x + 1; k < 4; k++)  // 
+                    if (GameBoardMatrix[k][y])
+                    {
+                        GameBoardMatrix[x][y] = GameBoardMatrix[k][y]; // Move the non-zero element to the empty tile
+                        GameBoardMatrix[k][y] = 0;          // Assign the non-zero element with zero
+                        printBoardMatrix();
+                    }
+            }
+        }
+}
+
+void right() // Move numbers in Array to the right - Ignore Merging
+{
+    for (int y = 3; y >= 0; y--)       // Scan Matrix  c - column l - line
+        for (int x = 3; x >= 0; x--)
+        {
+            if (!GameBoardMatrix[x][y])    // If tile is empty
+            {
+                for (int k = x - 1; k >= 0; k--)  // 
+                    if (GameBoardMatrix[k][y])
+                    {
+                        GameBoardMatrix[x][y] = GameBoardMatrix[k][y]; // Move the non-zero element to the empty tile
+                        GameBoardMatrix[k][y] = 0;          // Assign the non-zero element with zero
+                        printBoardMatrix();
+                    }
+            }
+        }
+}
