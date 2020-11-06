@@ -114,7 +114,7 @@ void up() // Move numbers in Array up - ignore merging
                     {
                         GameBoardMatrix[x][y] = GameBoardMatrix[x][k]; // Move the non-zero element to the empty tile
                         GameBoardMatrix[x][k] = 0;          // Assign the non-zero element with zero
-                        printBoardMatrix();
+                        y++;
                     }
             }
         }
@@ -132,8 +132,8 @@ void down() //Move Numbers in Array down - Ignore Merging
                     if (GameBoardMatrix[x][k])
                     {
                         GameBoardMatrix[x][y] = GameBoardMatrix[x][k]; // Move the non-zero element to the empty tile
-                        GameBoardMatrix[x][k] = 0;          // Assign the non-zero element with zero
-                        printBoardMatrix();
+                        GameBoardMatrix[x][k] = 0;  // Assign the non-zero element with zero
+                        y--;
                     }
             }
         }
@@ -151,7 +151,7 @@ void left() // Move numbers in Array to the left - Ignore Merging
                     {
                         GameBoardMatrix[x][y] = GameBoardMatrix[k][y]; // Move the non-zero element to the empty tile
                         GameBoardMatrix[k][y] = 0;          // Assign the non-zero element with zero
-                        printBoardMatrix();
+                        x++;
                     }
             }
         }
@@ -169,7 +169,7 @@ void right() // Move numbers in Array to the right - Ignore Merging
                     {
                         GameBoardMatrix[x][y] = GameBoardMatrix[k][y]; // Move the non-zero element to the empty tile
                         GameBoardMatrix[k][y] = 0;          // Assign the non-zero element with zero
-                        printBoardMatrix();
+                        x--;
                     }
             }
         }
