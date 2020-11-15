@@ -91,9 +91,11 @@ int mainmenu() // Main menu
    
 }
 
+
 void game() // Main Game Script - put all things in here, Do not bloat code with copying this to ContinueGame, load state and call game
 {
     random2();
+   
     while (1)
     {
     gamecontrols();
@@ -103,6 +105,7 @@ void game() // Main Game Script - put all things in here, Do not bloat code with
 
 void up() // Move numbers in Array up - ignore merging
 {
+  
 
     for (int x = 0; x < 4; x++)       // Traverse from Top to bottom of a column
         for (int y = 0; y < 4; y++)
@@ -118,12 +121,13 @@ void up() // Move numbers in Array up - ignore merging
                     }
             }
         }
+    
 }
 
 void down() //Move Numbers in Array down - Ignore Merging
 {
 
-    for (int x = 3; x >= 0; x--)       // Traverse from Top to bottom of a column
+    for (int x = 3; x >= 0; x--)       // Traverse from bottom to top of a column
         for (int y = 3; y >= 0; y--)
         {
             if (!GameBoardMatrix[x][y])    // If tile is empty
@@ -141,7 +145,7 @@ void down() //Move Numbers in Array down - Ignore Merging
 
 void left() // Move numbers in Array to the left - Ignore Merging
 {
-    for (int y = 0; y < 4; y++)       // Scan Matrix  c - column l - line
+    for (int y = 0; y < 4; y++)       // Scan Matrix  c - column l - line, scan from left to right
         for (int x = 0; x < 4; x++)
         {
             if (!GameBoardMatrix[x][y])    // If tile is empty
@@ -159,7 +163,7 @@ void left() // Move numbers in Array to the left - Ignore Merging
 
 void right() // Move numbers in Array to the right - Ignore Merging
 {
-    for (int y = 3; y >= 0; y--)       // Scan Matrix  c - column l - line
+    for (int y = 3; y >= 0; y--)       // Scan Matrix  c - column l - line, scan from right to left
         for (int x = 3; x >= 0; x--)
         {
             if (!GameBoardMatrix[x][y])    // If tile is empty
@@ -174,3 +178,4 @@ void right() // Move numbers in Array to the right - Ignore Merging
             }
         }
 }
+

@@ -16,40 +16,35 @@ int controls() // Keyboard controls - for MainMenu
 		return key;
 }
 
+
 int gamecontrols()
 {
-    
+
     int input = controls();
 
-    if (input == 27) // ESC
+    switch (input)
     {
+    case 27:
         return 0;
-    }
-    else if (input == 72) {
-
-       up();
-       random2();
-    }
-    else if (input == 80)
-    {
+        break;
+    case 72:
+        up();
+        random2();
+        break;
+    case 80:
         down();
         random2();
-    }
-    else if (input == 75)
-    {
+    case 75:
         left();
         random2();
-    }
-    else if (input == 77)
-    {
+        break;
+    case 77:
         right();
         random2();
-    }
-    else
-    {
+        break;
+    default: 
         gamecontrols();
-        // Dont quit on me 
+    
     }
- 
 
-}
+}//
