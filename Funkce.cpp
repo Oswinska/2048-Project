@@ -47,46 +47,44 @@ int mainmenu() // Main menu
     system("cls");
     printf("2048\nNew game: n\nContinue game: c\nLeaderboard: l\nQuit : q\n");
 
-    //char input; // User Input in Main Menu - Old Code
-    int input; 
-    //scanf_s(" %c", &input, 1); - Old Code
+    int input;    
     input = controls();
     bool inprogress;
-    if (input == 110) // Play new Game
+
+   
+    switch (input)
     {
+    case 110: //New Game
         inprogress = true;
-       // printBoardMatrix();
+        
         while (inprogress == true)
         {
-           
+
             game();
             inprogress = false;
         }
         mainmenu();
-    }
-    else if (input == 99 ) // Continue Game
-    {
+        break;
+    case 99:  //Continue game
         inprogress = true;
         printBoardMatrix();
         while (inprogress == true)
         {
-            //ContinueGame;
             controls();
             Sleep(5000);
             inprogress = false;
         }
         mainmenu();
-    }
-    else if (input == 108) // Leaderboard 
-    {
+        break;
+    case 108: //Leaderboards
         system("cls");
         printf("Lmao leaderboarda here");
         Sleep(5000);
         mainmenu();
-    }
-    else if (input == 27) // Quit game
-    {
+        break;
+    case 27: //ESC
         return 0;
+        break;
     }
    
 }

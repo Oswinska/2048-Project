@@ -19,7 +19,7 @@ int controls() // Keyboard controls - for MainMenu
 
 int gamecontrols()
 {
-
+    //Controls for the game itself
     int input = controls();
 
     switch (input)
@@ -47,4 +47,4 @@ int gamecontrols()
     
     }
 
-}//
+}
