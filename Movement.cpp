@@ -8,12 +8,12 @@
 
 int controls() // Keyboard controls - for MainMenu
 {
-	unsigned int key;
-		key = getch();
-        if (key == 0 || key == 0xE0) {
-            key = getch();
-        }
-		return key;
+    unsigned int key;
+    key = getch();
+    if (key == 0 || key == 0xE0) {
+        key = getch();
+    }
+    return key;
 }
 
 
@@ -42,9 +42,9 @@ int gamecontrols()
         right();
         random2();
         break;
-    default: 
+    default:
         gamecontrols();
-    
+
     }
 
 }

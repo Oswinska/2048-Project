@@ -33,7 +33,7 @@ void random2()
     if (GameBoardMatrix[x][y] == 0)
     {
         GameBoardMatrix[x][y] = 2;
-        
+
         printBoardMatrix();
     }
     else
@@ -47,16 +47,15 @@ int mainmenu() // Main menu
     system("cls");
     printf("2048\nNew game: n\nContinue game: c\nLeaderboard: l\nQuit : q\n");
 
-    int input;    
+    int input;
     input = controls();
     bool inprogress;
 
-   
+
     switch (input)
     {
     case 110: //New Game
         inprogress = true;
-        
         while (inprogress == true)
         {
 
@@ -67,16 +66,17 @@ int mainmenu() // Main menu
         break;
     case 99:  //Continue game
         inprogress = true;
-        printBoardMatrix();
         while (inprogress == true)
         {
             controls();
+            //loadstate();
+            //game()
             Sleep(5000);
             inprogress = false;
         }
         mainmenu();
         break;
-    case 108: //Leaderboards
+    case 108: //Leaderboard
         system("cls");
         printf("Lmao leaderboarda here");
         Sleep(5000);
@@ -86,24 +86,33 @@ int mainmenu() // Main menu
         return 0;
         break;
     }
-   
+
 }
 
+void loadstate()
+{
+
+}
 
 void game() // Main Game Script - put all things in here, Do not bloat code with copying this to ContinueGame, load state and call game
 {
     random2();
-   
+
     while (1)
     {
-    gamecontrols();
-    
+        gamecontrols();
+
     }
+}
+
+void save()
+{
+
 }
 
 void up() // Move numbers in Array up - ignore merging
 {
-  
+
 
     for (int x = 0; x < 4; x++)       // Traverse from Top to bottom of a column
         for (int y = 0; y < 4; y++)
@@ -115,11 +124,11 @@ void up() // Move numbers in Array up - ignore merging
                     {
                         GameBoardMatrix[x][y] = GameBoardMatrix[x][k]; // Move the non-zero element to the empty tile
                         GameBoardMatrix[x][k] = 0;          // Assign the non-zero element with zero
-                        y++;
+                        y++; // Move "zero scanner" to not write other numbers to this
                     }
             }
         }
-    
+
 }
 
 void down() //Move Numbers in Array down - Ignore Merging
@@ -135,7 +144,7 @@ void down() //Move Numbers in Array down - Ignore Merging
                     {
                         GameBoardMatrix[x][y] = GameBoardMatrix[x][k]; // Move the non-zero element to the empty tile
                         GameBoardMatrix[x][k] = 0;  // Assign the non-zero element with zero
-                        y--;
+                        y--; // Move "zero scanner" to not write other numbers to this
                     }
             }
         }
@@ -153,7 +162,7 @@ void left() // Move numbers in Array to the left - Ignore Merging
                     {
                         GameBoardMatrix[x][y] = GameBoardMatrix[k][y]; // Move the non-zero element to the empty tile
                         GameBoardMatrix[k][y] = 0;          // Assign the non-zero element with zero
-                        x++;
+                        x++; // Move "zero scanner" to not write other numbers to this
                     }
             }
         }
@@ -166,14 +175,13 @@ void right() // Move numbers in Array to the right - Ignore Merging
         {
             if (!GameBoardMatrix[x][y])    // If tile is empty
             {
-                for (int k = x - 1; k >= 0; k--)  // 
+                for (int k = x - 1; k >= 0; k--)  // Look for Empty tile
                     if (GameBoardMatrix[k][y])
                     {
                         GameBoardMatrix[x][y] = GameBoardMatrix[k][y]; // Move the non-zero element to the empty tile
                         GameBoardMatrix[k][y] = 0;          // Assign the non-zero element with zero
-                        x--;
+                        x--; // Move "zero scanner" to not write other numbers to this
                     }
             }
         }
 }
-
