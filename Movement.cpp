@@ -16,7 +16,6 @@ int controls() // Keyboard controls - for MainMenu
     return key;
 }
 
-
 int gamecontrols()
 {
     //Controls for the game itself
@@ -34,6 +33,7 @@ int gamecontrols()
     case 80:
         down();
         random2();
+        break;
     case 75:
         left();
         random2();
@@ -44,7 +44,5 @@ int gamecontrols()
         break;
     default:
         gamecontrols();
-
     }
-
 }

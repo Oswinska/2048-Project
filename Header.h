@@ -11,4 +11,5 @@ void down();
 void left();
 void right();
 void save();
-void merge();
+int WinCon();
+void Endgame();
