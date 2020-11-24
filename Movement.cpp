@@ -42,6 +42,10 @@ int gamecontrols()
         right();
         random2();
         break;
+    case 115:
+        system("cls");
+        printf("save option goes here\n");
+        break;
     default:
         gamecontrols();
     }
