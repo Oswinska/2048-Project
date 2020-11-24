@@ -5,6 +5,17 @@
 #include "Header.h"
 int GameBoardMatrix[4][4];
 
+void clearmatrix()
+{
+   for (int y = 0; y < 4; ++y)
+    {
+       for (int x = 0; x < 4; ++x)
+       {
+           GameBoardMatrix[x][y] = 0;
+       }
+    }
+}
+
 void printBoardMatrix() // Print Board - y Up, Down,  x - Left, Right
 {
     system("cls");
@@ -54,6 +65,7 @@ int mainmenu() // Main menu
         inprogress = true;
         while (inprogress == true)
         {
+            clearmatrix();
             game();
             inprogress = false;
         }
@@ -106,18 +118,30 @@ void game() // Main Game Script - put all things in here, Do not bloat code with
     bool inprogress = true;
     while (inprogress == true)
     {
-        gamecontrols();
-        score();
+        int input = gamecontrols();
         printf("score: %d", score());
-        WinCon();
-        if (WinCon() == 0)
+        if (input == 0)
+        inprogress = false;
+        if (WinCon() == 1)
             inprogress = false;
-        
     }
 }
 
 void save()
 {
+    FILE* end;
+    errno_t errorCode1 = fopen_s(&end, "save_1.dat", "w");
+    for (int y = 0; y < 4; ++y)
+    {
+        for (int x = 0; x < 4; ++x)
+        {
+            fprintf(end, "%d", GameBoardMatrix[x][y]);
+        }
+        fprintf(end, "\n");
+    }
+    fprintf(end, "\nScore:%d", score);
+    fclose(end);
+    mainmenu();
 }
 
 int WinCon() // Check for 2048, if its present, end the game.
@@ -132,15 +156,16 @@ int WinCon() // Check for 2048, if its present, end the game.
     if (max == 2048) // change to 16 for testing
     {
         Endgame();
-        return 0;
+        return 1;
     }
-    return 1;
+    return 0;
 }
 
 void Endgame()
 {
     system("cls");
     printf("Nice");
+    Sleep(5000);
 }
 
 void up() // Move numbers in Array up - ignore merging
@@ -167,7 +192,6 @@ void up() // Move numbers in Array up - ignore merging
                 GameBoardMatrix[x][y] += GameBoardMatrix[x][y + 1];             // add to first element or double
                 GameBoardMatrix[x][y + 1] = 0;                       // assign second element with zero
             }
-
         }
 }
 

@@ -1,6 +1,7 @@
 #pragma once
 void game();
 int mainmenu();
+void clearmatrix();
 void printBoardMatrix();
 void random2();
 int gamecontrols();
