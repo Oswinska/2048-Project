@@ -139,7 +139,7 @@ void save()
         }
         fprintf(end, "\n");
     }
-    fprintf(end, "\nScore:%d", score);
+    fprintf(end, "\nScore:%d", score());
     fclose(end);
     mainmenu();
 }
