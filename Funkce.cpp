@@ -53,7 +53,7 @@ void random2()
 int mainmenu() // Main menu
 {
     system("cls");
-    printf("2048\nNew game: n\nContinue game: c\nLeaderboard: l\nQuit : q\n");
+    printf("2048\nNew game: n\nContinue game: c\nLeaderboard: l\nQuit : ESC\n");
 
     int input;
     input = controls();
@@ -92,7 +92,9 @@ int mainmenu() // Main menu
     case 27: //ESC
         return 0;
         break;
+    default: mainmenu();
     }
+
 }
 
 int score() // Is highscore the highest achieved number or sum of all numbers in the matrix ?
