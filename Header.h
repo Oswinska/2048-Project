@@ -11,7 +11,7 @@ void up();
 void down();
 void left();
 void right();
-void save();
+int save();
 int WinCon();
 void Endgame();
 

@@ -135,23 +135,90 @@ void game() // Main Game Script - put all things in here, Do not bloat code with
     }
 }
 
-void save()
+int save()
 {
-    FILE* end;
-    errno_t errorCode1 = fopen_s(&end, "save_1.dat", "w");
-    for (int y = 0; y < 4; ++y)
-    {
-        for (int x = 0; x < 4; ++x)
-        {
-            fprintf(end, "%d", GameBoardMatrix[x][y]);
-        }
-        fprintf(end, "\n");
-    }
-    fprintf(end, "\nScore:%d", score());
+    printf("Choose save slot 1, 2 or 3");
+    int input = controls();
+    system("cls");
+   
+    
 
-    fprintf(end, "\nUsername:%s", *username);
-    fclose(end);
-    mainmenu();
+    if (input == 49)
+    {
+        FILE* save1;
+        errno_t errorCode1 = fopen_s(&save1, "save_1.dat", "w");
+        if (save1 == NULL)
+        {
+            perror("Error opening file");
+            return(-1);
+        }
+        for (int y = 0; y < 4; ++y)
+        {
+            for (int x = 0; x < 4; ++x)
+            {
+                fprintf(save1, "%d", GameBoardMatrix[x][y]);
+            }
+            fprintf(save1, "\n");
+        }
+        fprintf(save1, "\nScore:%d", score());
+
+        fprintf(save1, "\nUsername:%s", *username);
+        fclose(save1);
+        printf("Save complete");
+        Sleep(1000);
+        mainmenu();
+    }
+    if (input == 50)
+    {
+        FILE* save2;
+        errno_t errorCode2 = fopen_s(&save2, "save_2.dat", "w");
+        if (save2 == NULL)
+        {
+            perror("Error opening file");
+            return(-1);
+        }
+        for (int y = 0; y < 4; ++y)
+        {
+            for (int x = 0; x < 4; ++x)
+            {
+                fprintf(save2, "%d", GameBoardMatrix[x][y]);
+            }
+            fprintf(save2, "\n");
+        }
+        fprintf(save2, "\nScore:%d", score());
+
+        fprintf(save2, "\nUsername:%s", *username);
+        fclose(save2);
+        printf("Save complete");
+        Sleep(1000);
+        mainmenu();
+    }
+    if (input == 51)
+    {
+        FILE* save3;
+        errno_t errorCode3 = fopen_s(&save3, "save_3.dat", "w");
+        if (save3 == NULL)
+        {
+            perror("Error opening file");
+            return -1;
+        }
+        for (int y = 0; y < 4; ++y)
+        {
+            for (int x = 0; x < 4; ++x)
+            {
+                fprintf(save3, "%d", GameBoardMatrix[x][y]);
+            }
+            fprintf(save3, "\n");
+        }
+        fprintf(save3, "\nScore:%d", score());
+
+        fprintf(save3, "\nUsername:%s", *username);
+        fclose(save3);
+        printf("Save complete");
+        Sleep(1000);
+        mainmenu();
+    }
+    
 }
 
 int WinCon() // Check for 2048, if its present, end the game.
