@@ -4,7 +4,7 @@
 #include <time.h>
 #include "Header.h"
 int GameBoardMatrix[4][4];
-
+char* username[256];
 void clearmatrix()
 {
    for (int y = 0; y < 4; ++y)
@@ -65,9 +65,15 @@ int mainmenu() // Main menu
         inprogress = true;
         while (inprogress == true)
         {
+            system("cls");
+            char username1[256];
+            printf("Please enter your username: \n ");
+            scanf_s("%s", username1, sizeof(username1));
+            *username = username1;
             clearmatrix();
             game();
             inprogress = false;
+           
         }
         mainmenu();
         break;
@@ -142,6 +148,8 @@ void save()
         fprintf(end, "\n");
     }
     fprintf(end, "\nScore:%d", score());
+
+    fprintf(end, "\nUsername:%s", *username);
     fclose(end);
     mainmenu();
 }
@@ -169,6 +177,16 @@ void Endgame()
     printf("Nice");
     Sleep(5000);
 }
+/*int name()
+{
+    char username = 0;
+    system("cls");
+    printf("Please enter your username: ");
+    scanf_s(" %s", &username, sizeof(username));
+
+    return username;
+    
+}*/
 
 void up() // Move numbers in Array up - ignore merging
 {

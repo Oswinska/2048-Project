@@ -14,3 +14,5 @@ void right();
 void save();
 int WinCon();
 void Endgame();
+
+//int name();
