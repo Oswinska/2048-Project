@@ -19,18 +19,19 @@ void clearmatrix()
 void printBoardMatrix() // Print Board - y Up, Down,  x - Left, Right
 {
     system("cls");
+    char emptyspace[] = ".";
     for (int y = 0; y < 4; ++y)
     {
         for (int x = 0; x < 4; ++x)
             if (GameBoardMatrix[x][y] == 0) // if 0 print dot 
             {
-                printf(" . ");
+                printf("%6.1s" , emptyspace);
             }
             else
             {
-                printf(" %d ", GameBoardMatrix[x][y]); // Print numbers in matrix 
+                printf("%6.1d", GameBoardMatrix[x][y]); // Print numbers in matrix 
             }
-        printf("\n"); // New line if line in matrix has numbers or dots
+        printf("\n\n"); // New line if line in matrix has numbers or dots
     }
 }
 
@@ -124,7 +125,7 @@ void game() // Main Game Script - put all things in here, Do not bloat code with
     while (inprogress == true)
     {
         int input = gamecontrols();
-        printf("score: %d", score());
+        printf(" score: %d", score());
         if (input == 0)
         inprogress = false;
         if (WinCon() == 1)
@@ -340,8 +341,9 @@ void right() // Move numbers in Array to the right - Ignore Merging
             }
 
         }
-    for (int y = 0; y < 4; y++)       // Scan Matrix  c - column l - line, scan from left to right
-        for (int x = 0; x < 4; x++)
+
+    for (int y = 3; y >= 0; y--)       // Scan Matrix  c - column l - line, scan from right to left
+        for (int x = 3; x >= 0; x--)
         {
             if (GameBoardMatrix[x][y] && GameBoardMatrix[x][y] == GameBoardMatrix[x - 1][y]) // Check if adjecent tiles are equal and non zero
             {
