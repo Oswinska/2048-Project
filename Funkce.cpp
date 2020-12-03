@@ -4,7 +4,7 @@
 #include <time.h>
 #include "Header.h"
 int GameBoardMatrix[4][4];
-char* username[256];
+char Username[256];
 void clearmatrix()
 {
    for (int y = 0; y < 4; ++y)
@@ -66,14 +66,11 @@ int mainmenu() // Main menu
         while (inprogress == true)
         {
             system("cls");
-            char username1[256];
-            printf("Please enter your username: \n ");
-            scanf_s("%s", username1, sizeof(username1));
-            *username = username1;
+            printf("Please enter your username: ");
+            scanf_s(" %s", Username, sizeof(Username));
             clearmatrix();
             game();
             inprogress = false;
-           
         }
         mainmenu();
         break;
@@ -137,12 +134,10 @@ void game() // Main Game Script - put all things in here, Do not bloat code with
 
 int save()
 {
-    printf("Choose save slot 1, 2 or 3");
+    printf("Choose save slot 1, 2 or 3: ");
     int input = controls();
     system("cls");
    
-    
-
     if (input == 49)
     {
         FILE* save1;
@@ -156,13 +151,13 @@ int save()
         {
             for (int x = 0; x < 4; ++x)
             {
-                fprintf(save1, "%d", GameBoardMatrix[x][y]);
+                fprintf(save1, "%d ", GameBoardMatrix[x][y]);
             }
             fprintf(save1, "\n");
         }
-        fprintf(save1, "\nScore:%d", score());
+        fprintf(save1, "\nScore: %d", score());
 
-        fprintf(save1, "\nUsername:%s", *username);
+        fprintf(save1, "\nUsername: %s", Username);
         fclose(save1);
         printf("Save complete");
         Sleep(1000);
@@ -181,13 +176,13 @@ int save()
         {
             for (int x = 0; x < 4; ++x)
             {
-                fprintf(save2, "%d", GameBoardMatrix[x][y]);
+                fprintf(save2, "%d ", GameBoardMatrix[x][y]);
             }
             fprintf(save2, "\n");
         }
-        fprintf(save2, "\nScore:%d", score());
+        fprintf(save2, "\nScore: %d", score());
 
-        fprintf(save2, "\nUsername:%s", *username);
+        fprintf(save2, "\nUsername: %s", Username);
         fclose(save2);
         printf("Save complete");
         Sleep(1000);
@@ -206,13 +201,13 @@ int save()
         {
             for (int x = 0; x < 4; ++x)
             {
-                fprintf(save3, "%d", GameBoardMatrix[x][y]);
+                fprintf(save3, "%d ", GameBoardMatrix[x][y]);
             }
             fprintf(save3, "\n");
         }
-        fprintf(save3, "\nScore:%d", score());
+        fprintf(save3, "\nScore: %d", score());
 
-        fprintf(save3, "\nUsername:%s", *username);
+        fprintf(save3, "\nUsername: %s", Username);
         fclose(save3);
         printf("Save complete");
         Sleep(1000);
@@ -244,16 +239,7 @@ void Endgame()
     printf("Nice");
     Sleep(5000);
 }
-/*int name()
-{
-    char username = 0;
-    system("cls");
-    printf("Please enter your username: ");
-    scanf_s(" %s", &username, sizeof(username));
 
-    return username;
-    
-}*/
 
 void up() // Move numbers in Array up - ignore merging
 {

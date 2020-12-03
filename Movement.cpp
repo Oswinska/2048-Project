@@ -44,7 +44,6 @@ int gamecontrols()
         break;
     case 115:
         system("cls");
-        //printf("save option goes here\n");
         save();
         break;
     default:
