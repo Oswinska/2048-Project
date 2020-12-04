@@ -118,12 +118,11 @@ int mainmenu() // Main menu
 int score() // Is highscore the highest achieved number or sum of all numbers in the matrix ?
 {
     int max = GameBoardMatrix[0][0];
-    int static sum = 0;
+    int sum = 0;
     for (int x = 0; x < 4; x++)
         for (int y = 0; y < 4; y++)
-            if (GameBoardMatrix[x][y] > max)
-                max = GameBoardMatrix[x][y];
-    sum += max;
+            sum = sum + GameBoardMatrix[x][y];
+   
     return sum;
 }
 
@@ -131,10 +130,11 @@ int loadstate()
 {
     system("cls");
     printf("Choose save slot 1, 2 or 3: ");
+    // please add magic code that makes it ignore other inputs ._.
     int input = controls();
     int i = 0;
     double loadscore = 0;
-    if (input == 49)
+    if (input == 49) //load slot1
     {
         FILE* load1;
         errno_t errorCode1 = fopen_s(&load1, "save_1.dat", "r");
@@ -180,15 +180,60 @@ int loadstate()
        ;*/
     }
 
+    if (input == 50) //load slot2
+    {
+        FILE* load2;
+        errno_t errorCode2 = fopen_s(&load2, "save_2.dat", "r");
+        if (load2 == NULL)
+        {
+            perror("Error opening file");
+            return(-1);
+        }
+        system("cls");
+        
+        for (int y = 0; y < 4; y++)
+        {
+            for (int x = 0; x < 4; x++)
+            {
+                if (!fscanf_s(load2, "%d", &GameBoardMatrix[x][y]))
+                    break;
 
 
 
+            }
 
+        }
+
+    }
+    if (input == 51) //load slot3
+    {
+        FILE* load3;
+        errno_t errorCode3 = fopen_s(&load3, "save_3.dat", "r");
+        if (load3 == NULL)
+        {
+            perror("Error opening file");
+            return(-1);
+        }
+        system("cls");
+       
+        for (int y = 0; y < 4; y++)
+        {
+            for (int x = 0; x < 4; x++)
+            {
+                if (!fscanf_s(load3, "%d", &GameBoardMatrix[x][y]))
+                    break;
+
+
+
+            }
+
+        }
+    }
 }
 
 void game() // Main Game Script - put all things in here, Do not bloat code with copying this to ContinueGame, load state and call game
 {
-    random2();
+    random2(); //this needs to be ignored afer we load a game
     bool inprogress = true;
     while (inprogress == true)
     {
@@ -206,7 +251,7 @@ void game() // Main Game Script - put all things in here, Do not bloat code with
 int save()
 {
     bool inprogress = true;
-    printf("Choose save slot 1, 2 or 3: ");
+    printf("Choose save slot 1, 2 or 3: ");// please add magic code that makes it ignore other inputs
     int input = controls();
     system("cls");
    
@@ -227,7 +272,7 @@ int save()
             }
             fprintf(save1, "\n");
         }
-        fprintf(save1, "\n%d", score());
+        
 
         fprintf(save1, "\nUsername: %s", Username);
         fclose(save1);
@@ -252,7 +297,7 @@ int save()
             }
             fprintf(save2, "\n");
         }
-        fprintf(save2, "\n%d", score());
+        
 
         fprintf(save2, "\n%s", Username);
         fclose(save2);
@@ -277,7 +322,7 @@ int save()
             }
             fprintf(save3, "\n");
         }
-        fprintf(save3, "\nScore: %d", score());
+       
 
         fprintf(save3, "\nUsername: %s", Username);
         fclose(save3);
