@@ -14,5 +14,10 @@ void right();
 int save();
 int WinCon();
 void Endgame();
+int loadstate();
+struct LeaderBoard
+{
+	char Username[256];
+	int Score;
+};
 
-//int name();

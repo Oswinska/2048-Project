@@ -15,6 +15,20 @@ void clearmatrix()
        }
     }
 }
+/*bool gameOver()           Pokud je pole plné, ukonèí hru. Pokud nepøijdem na nic lepší tak to asi mužem použit jako gameover
+{
+    for (int x = 0; x < 4; x++)
+    {
+        for (int y = 0; y < 4; y++)
+        {
+            if (GameBoardMatrix[x][y] == 0)
+            {
+                return false;     
+            }
+        }
+    }
+    return true;   
+}*/
 
 void printBoardMatrix() // Print Board - y Up, Down,  x - Left, Right
 {
@@ -80,9 +94,9 @@ int mainmenu() // Main menu
         while (inprogress == true)
         {
             controls();
-            //loadstate();
-            //game()
-            Sleep(5000);
+            loadstate();
+            game();
+            
             inprogress = false;
         }
         mainmenu();
@@ -90,7 +104,7 @@ int mainmenu() // Main menu
     case 108: //Leaderboard
         system("cls");
         printf("Lmao leaderboarda here");
-        Sleep(5000);
+        Sleep(5000); 
         mainmenu();
         break;
     case 27: //ESC
@@ -113,8 +127,62 @@ int score() // Is highscore the highest achieved number or sum of all numbers in
     return sum;
 }
 
-void loadstate()
+int loadstate()
 {
+    system("cls");
+    printf("Choose save slot 1, 2 or 3: ");
+    int input = controls();
+    int i = 0;
+    double loadscore = 0;
+    if (input == 49)
+    {
+        FILE* load1;
+        errno_t errorCode1 = fopen_s(&load1, "save_1.dat", "r");
+        if (load1 == NULL)
+        {
+            perror("Error opening file");
+            return(-1);
+        }
+        system("cls");
+        //it works and I will not question it
+        for (int y = 0; y < 4; y++)
+        {
+            for (int x = 0; x < 4; x++)
+            {
+                if (!fscanf_s(load1, "%d", &GameBoardMatrix[x][y]))
+                    break;
+
+
+
+            }
+
+        }
+       /* 
+     Tahle funkce je schopná pøeèíst  username, ale ani za pièu nevím jak ho uložit do Username aniž bych dojebal všechno ostatní
+     K ètení score se radši ani nebudu vyjadøovat
+
+
+
+        int loop;
+        char name[256];
+        int line = 4;
+
+        for (end = loop = 0; loop < line; ++loop) {
+            if (0 == fgets(name, sizeof(name), load1)) {//include '\n'
+                
+                break;
+            }
+        }
+        
+            printf("\n %s\n", name) 
+        Sleep(5000);
+
+       ;*/
+    }
+
+
+
+
 
 }
 
@@ -130,16 +198,19 @@ void game() // Main Game Script - put all things in here, Do not bloat code with
         inprogress = false;
         if (WinCon() == 1)
             inprogress = false;
+        /*if (gameOver() == 1)
+            inprogress = false;*/
     }
 }
 
 int save()
 {
+    bool inprogress = true;
     printf("Choose save slot 1, 2 or 3: ");
     int input = controls();
     system("cls");
    
-    if (input == 49)
+    if (input == 49) //Save to slot1
     {
         FILE* save1;
         errno_t errorCode1 = fopen_s(&save1, "save_1.dat", "w");
@@ -156,15 +227,15 @@ int save()
             }
             fprintf(save1, "\n");
         }
-        fprintf(save1, "\nScore: %d", score());
+        fprintf(save1, "\n%d", score());
 
         fprintf(save1, "\nUsername: %s", Username);
         fclose(save1);
         printf("Save complete");
         Sleep(1000);
-        mainmenu();
+        
     }
-    if (input == 50)
+    if (input == 50) //Save to slot2
     {
         FILE* save2;
         errno_t errorCode2 = fopen_s(&save2, "save_2.dat", "w");
@@ -181,15 +252,15 @@ int save()
             }
             fprintf(save2, "\n");
         }
-        fprintf(save2, "\nScore: %d", score());
+        fprintf(save2, "\n%d", score());
 
-        fprintf(save2, "\nUsername: %s", Username);
+        fprintf(save2, "\n%s", Username);
         fclose(save2);
         printf("Save complete");
         Sleep(1000);
-        mainmenu();
+        
     }
-    if (input == 51)
+    if (input == 51) // Save to slot3
     {
         FILE* save3;
         errno_t errorCode3 = fopen_s(&save3, "save_3.dat", "w");
@@ -212,7 +283,12 @@ int save()
         fclose(save3);
         printf("Save complete");
         Sleep(1000);
-        mainmenu();
+        
+    }
+    if (input == 48)
+    {
+ 
+        return 0;
     }
     
 }
