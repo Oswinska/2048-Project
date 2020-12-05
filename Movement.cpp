@@ -1,12 +1,9 @@
 #include <iostream>
-#include <windows.h>
-#include <stdlib.h> 
-#include <time.h>
 #include <conio.h>
 #include "Header.h"
 #define getch() _getch()
 
-int controls() // Keyboard controls - for MainMenu
+int controls() // Keyboard control
 {
     unsigned int key;
     key = getch();
@@ -41,6 +38,10 @@ int gamecontrols()
     case 77:
         right();
         random2();
+        break;
+    case 115:
+        system("cls");
+        save();
         break;
     default:
         gamecontrols();

@@ -1,6 +1,8 @@
 #pragma once
-void game();
+// Game functions
 int mainmenu();
+void game();
+void clearmatrix();
 void printBoardMatrix();
 void random2();
 int gamecontrols();
@@ -10,6 +12,18 @@ void up();
 void down();
 void left();
 void right();
-void save();
+//Save Load
+int save();
+int loadstate();
+//GameState
 int WinCon();
-void Endgame();
+void endgame();
+int adj();
+//Leaderboard Struct
+struct LeaderBoard
+{
+	char Username[256];
+	int Score;
+	struct Leaderboard* next;
+};
+void saveLead(char* Username, int* Score,struct Leaderboard** sh_first);
