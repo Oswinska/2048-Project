@@ -13,7 +13,8 @@ void left();
 void right();
 int save();
 int WinCon();
-void Endgame();
+void endgame();
+int adj();
 int loadstate();
 struct LeaderBoard
 {

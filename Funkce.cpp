@@ -30,6 +30,45 @@ void clearmatrix()
     return true;   
 }*/
 
+int adj()
+{
+    int i = 0;
+    int help = 0;
+    unsigned int counter = 0;
+    for (int y = 0; y < 4 && !help; y++)
+    {
+        for (i = 0; i < 4 - 1 && !help; i++) 
+        {
+            if (GameBoardMatrix[i][y] == GameBoardMatrix[i + 1][y])
+            {
+
+                help = 1;
+                counter++;
+                break;
+            }
+        }
+    }
+
+   
+    if (help == 0)
+    {
+        
+        for (int x = 0; x < 4 && !help; x++) 
+        {
+            for (i = 0; i < 4 - 1 && !help; i++) 
+            {
+                if (GameBoardMatrix[x][i] == GameBoardMatrix[x][i + 1])
+                {
+                    counter++;
+                    break;
+                }
+
+                    
+            }
+        }
+    }
+    return counter;
+}
 void printBoardMatrix() // Print Board - y Up, Down,  x - Left, Right
 {
     system("cls");
@@ -245,9 +284,12 @@ void game() // Main Game Script - put all things in here, Do not bloat code with
         inprogress = false;
         if (WinCon() == 1)
             inprogress = false;
+        if (adj() != 0)
+            inprogress = false;
         /*if (gameOver() == 1)
             inprogress = false;*/
     }
+    endgame();
 }
 
 int save()
@@ -351,18 +393,19 @@ int WinCon() // Check for 2048, if its present, end the game.
     sum += max;
     if (max == 2048) // change to 16 for testing
     {
-        Endgame();
+        endgame();
         return 1;
     }
     return 0;
 }
 
-void Endgame()
+void endgame()
 {
     system("cls");
     printf("Nice");
     Sleep(5000);
 }
+
 
 
 void up() // Move numbers in Array up - ignore merging
