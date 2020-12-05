@@ -3,60 +3,99 @@
 #include <stdlib.h> 
 #include <time.h>
 #include "Header.h"
-
 int GameBoardMatrix[4][4];
 char Username[SIZE];
 struct Leaderboard* first = NULL;
 
-void clearmatrix() // Fill matrix with zeroes
+ //basic game functions
+int score() // take sum of all numbers in matrix
 {
-   for (int y = 0; y < 4; ++y)
-    {
-       for (int x = 0; x < 4; ++x)
-       {
-           GameBoardMatrix[x][y] = 0;
-       }
-    }
-} 
+    int max = GameBoardMatrix[0][0];
+    int sum = 0;
+    for (int x = 0; x < 4; x++)
+        for (int y = 0; y < 4; y++)
+            sum = sum + GameBoardMatrix[x][y];
 
-int adj() // Checker for possible movements if Matrix is reaching low available spaces
-{
-    int i = 0;
-    int help = 0;
-    unsigned int counter = 0;
-    for (int y = 0; y < 4 && !help; y++)
-    {
-        for (i = 0; i < 4 - 1 && !help; i++) 
-        {
-            if (GameBoardMatrix[i][y] == GameBoardMatrix[i + 1][y])
-            {
-
-                help = 1;
-                counter++;
-                break;
-            }
-        }
-    }
-
-    if (help == 0)
-    {
-        
-        for (int x = 0; x < 4 && !help; x++) 
-        {
-            for (i = 0; i < 4 - 1 && !help; i++) 
-            {
-                if (GameBoardMatrix[x][i] == GameBoardMatrix[x][i + 1])
-                {
-                    counter++;
-                    break;
-                }
-
-                    
-            }
-        }
-    }
-    return counter;
+    return sum; // score
 }
+int mainmenu() // Main menu
+{
+    int input;
+    do
+    {
+        system("cls");
+        printf("   ___   ____  __ __  ____ \n");
+        printf("  |__   / __  / // / ( __ )\n");
+        printf("  __/ // / / / // /_/ __  |\n");
+        printf(" / __// /_/ /__  __/ /_/ / \n");
+        printf("/____/ ____/  /_/   ____/  \n");
+        printf("|________________|\n");
+        printf("|New game: n     |\n|________________|\n");
+        printf("|Continue game: c|\n|________________|\n");
+        printf("|Leaderboard: l  |\n|________________|\n");
+        printf("|Quit : ESC      |\n|________________|\n");
+
+
+        bool inprogress;
+        input = controls();
+        switch (input)
+        {
+        case 110: //New Game
+            inprogress = true;
+            while (inprogress == true)
+            {
+                system("cls");
+                printf("Please enter your username: ");
+                scanf_s(" %s", Username, sizeof(Username));
+                clearmatrix();
+                random2();
+                game();
+                inprogress = false;
+
+            }
+            break;
+        case 99:  //Continue game
+            inprogress = true;
+            while (inprogress == true)
+            {
+                loadstate();
+                game();
+                inprogress = false;
+            }
+            break;
+        case 108: //Leaderboard
+            system("cls");
+            printLead();
+            printf("\n Press f to continue");
+            while (controls() != 'f');
+            break;
+        case 27: //ESC
+            return 0;
+            break;
+        }
+    } while (input != 27);
+    return 0;
+}
+void game() // Main Game Script - put all things in here, Do not bloat code with copying this to ContinueGame, load state and call game
+{
+    bool inprogress = true;
+    while (inprogress == true)
+    {
+        int input = gamecontrols();
+        printf(" score: %d", score());
+        if (input == 0)
+            inprogress = false;
+        else if (WinCon() == 1)
+            inprogress = false;
+        else if (adj() == 0) {
+            inprogress = false;
+            endgameLose();
+        }
+    }
+}
+
+
+//matrix functions
 
 void printBoardMatrix() // Print Board - y Up, Down,  x - Left, Right
 {
@@ -76,7 +115,16 @@ void printBoardMatrix() // Print Board - y Up, Down,  x - Left, Right
         printf("\n\n"); // New line if line in matrix has numbers or dots
     }
 }
-
+void clearmatrix() // Fill matrix with zeroes
+{
+    for (int y = 0; y < 4; ++y)
+    {
+        for (int x = 0; x < 4; ++x)
+        {
+            GameBoardMatrix[x][y] = 0;
+        }
+    }
+}
 int random2() // Generate 2 in a random position
 {
     srand(time(NULL));
@@ -97,75 +145,22 @@ int random2() // Generate 2 in a random position
     random2();
 }
 
-int mainmenu() // Main menu
-{
-    int input;
-    do
-    {
-    system("cls");
-    printf("2048\nNew game: n\nContinue game: c\nLeaderboard: l\nQuit : ESC\n");
 
-    bool inprogress;
-    input = controls();
-    switch (input)
-    {
-    case 110: //New Game
-        inprogress = true;
-        while (inprogress == true)
-        {
-            system("cls");
-            printf("Please enter your username: ");
-            scanf_s(" %s", Username, sizeof(Username));
-            clearmatrix();
-            random2();
-            game();
-            inprogress = false;
 
-        }
-        break;
-    case 99:  //Continue game
-        inprogress = true;
-        while (inprogress == true)
-        {
-            loadstate();
-            game();
-            inprogress = false;
-        }
-        break;
-    case 108: //Leaderboard
-        system("cls");
-        printLead();
-        printf("\n Press f to continue");
-        while (controls() != 'f');
-        break;
-    case 27: //ESC
-        return 0;
-        break;
-        }
-    } while (input != 27);
-    return 0;
-}
 
-int score() // Is highscore the highest achieved number or sum of all numbers in the matrix ?
-{
-    int max = GameBoardMatrix[0][0];
-    int sum = 0;
-    for (int x = 0; x < 4; x++)
-        for (int y = 0; y < 4; y++)
-            sum = sum + GameBoardMatrix[x][y];
-   
-    return sum;
-}
 
+//loading and saving functions
 int loadstate()
 {
     system("cls");
     printf("Choose save slot 1, 2 or 3: ");
-    // please add magic code that makes it ignore other inputs ._.
+    
     int input = controls();
     int i = 0;
     double loadscore = 0;
-    
+    int loop;
+    int line = 4;
+    int end;
     if (input == 49) //load slot1
     {
         FILE* load1;
@@ -185,9 +180,6 @@ int loadstate()
             }
         }
 
-        int loop;
-        int line = 4;
-        int end;
 
         for(end = loop = 0;loop<line;++loop)
         {
@@ -221,9 +213,7 @@ int loadstate()
             }
         }
 
-        int loop;
-        int line = 4;
-        int end;
+        
 
         for (end = loop = 0; loop < line; ++loop)
         {
@@ -233,7 +223,7 @@ int loadstate()
                 break;
             }
         }
-        printf("\n %s\n", Username); //testing if loading is correct
+        printf("\n %s\n", Username); //show username, mostly testing purposes
         Sleep(1000);
         printBoardMatrix();
     }
@@ -256,9 +246,7 @@ int loadstate()
             }
         }
 
-        int loop;
-        int line = 4;
-        int end;
+        
 
         for (end = loop = 0; loop < line; ++loop)
         {
@@ -268,34 +256,15 @@ int loadstate()
                 break;
             }
         }
-        printf("\n %s\n", Username); //testing if loading is correct
-        Sleep(1000);
+        printf("\n %s\n", Username); //show username, mostly testing purposes
         printBoardMatrix();
-    }
-}
-
-void game() // Main Game Script - put all things in here, Do not bloat code with copying this to ContinueGame, load state and call game
-{
-    bool inprogress = true;
-    while (inprogress == true)
-    {
-        int input = gamecontrols();
-        printf(" score: %d", score());
-        if (input == 0)
-        inprogress = false;
-        else if (WinCon() == 1)
-        inprogress = false;
-        else if (adj() == 0) {
-            inprogress = false;
-            endgameLose();
-        }
     }
 }
 
 int save()
 {
     bool inprogress = true;
-    printf("Choose save slot 1, 2 or 3: ");// please add magic code that makes it ignore other inputs
+    printf("Choose save slot 1, 2 or 3: ");
     int input = controls();
     system("cls");
    
@@ -371,24 +340,7 @@ int save()
     }
 }
 
-int WinCon() // Check for 2048, if its present, end the game.
-{
-    int max = GameBoardMatrix[0][0];
-    int static sum = 0;
-    for (int x = 0; x < 4; x++)
-        for (int y = 0; y < 4; y++)
-            if (GameBoardMatrix[x][y] > max)
-                max = GameBoardMatrix[x][y];
-    sum += max;
-    if (max == 2048) // change to 16 for testing
-    {
-        endgame();
-        return 1;
-    }
-    return 0;
-}
-
-int savetofile()
+int savetofile()//save state of leaderboard to file
 {
     FILE* Leader;
     errno_t errorCode1 = fopen_s(&Leader, "Leaderboard.dat", "w");
@@ -407,7 +359,7 @@ int savetofile()
     fclose(Leader);
 }
 
-int loadleader()
+int loadleader() //load the state of leaderboard, suicidal function
 {
     FILE* Leader;
     errno_t errorCode1 = fopen_s(&Leader, "Leaderboard.dat", "r");
@@ -433,6 +385,62 @@ int loadleader()
 
     }
     fclose(Leader);
+}
+
+//Win/loose funcitons
+int WinCon() // Check for 2048, if its present, end the game.
+{
+    int max = GameBoardMatrix[0][0];
+    int static sum = 0;
+    for (int x = 0; x < 4; x++)
+        for (int y = 0; y < 4; y++)
+            if (GameBoardMatrix[x][y] > max)
+                max = GameBoardMatrix[x][y];
+    sum += max;
+    if (max == 2048) // change to 16 for testing
+    {
+        endgame();
+        return 1;
+    }
+    return 0;
+}
+int adj() // Checker for possible movements if Matrix is reaching low available spaces
+{
+    int i = 0;
+    int help = 0;
+    unsigned int counter = 0;
+    for (int y = 0; y < 4 && !help; y++)
+    {
+        for (i = 0; i < 4 - 1 && !help; i++)
+        {
+            if (GameBoardMatrix[i][y] == GameBoardMatrix[i + 1][y])
+            {
+
+                help = 1;
+                counter++;
+                break;
+            }
+        }
+    }
+
+    if (help == 0)// only check rows if there are no moves in collums
+    {
+
+        for (int x = 0; x < 4 && !help; x++)
+        {
+            for (i = 0; i < 4 - 1 && !help; i++)
+            {
+                if (GameBoardMatrix[x][i] == GameBoardMatrix[x][i + 1])
+                {
+                    counter++;
+                    break;
+                }
+
+
+            }
+        }
+    }
+    return counter;
 }
 
 void printLead()
@@ -493,7 +501,8 @@ void endgameLose() // ends game if you lose
     while (controls() != 'f');
 }
 
-void up() // Move numbers in Array up - ignore merging
+//move functions
+void up() // Move numbers in Array up
 {
     for (int x = 0; x < 4; x++)       // Traverse from Top to bottom of a column
         for (int y = 0; y < 4; y++)
@@ -520,7 +529,7 @@ void up() // Move numbers in Array up - ignore merging
         }
 }
 
-void down() //Move Numbers in Array down - Ignore Merging
+void down() //Move Numbers in Array down 
 {
 
     for (int x = 3; x >= 0; x--)       // Traverse from bottom to top of a column
@@ -548,7 +557,7 @@ void down() //Move Numbers in Array down - Ignore Merging
         }
 }
 
-void left() // Move numbers in Array to the left - Ignore Merging
+void left() // Move numbers in Array to the left 
 {
     for (int y = 0; y < 4; y++)       // Scan Matrix  c - column l - line, scan from left to right
         for (int x = 0; x < 4; x++)
@@ -575,7 +584,7 @@ void left() // Move numbers in Array to the left - Ignore Merging
         }
 }
 
-void right() // Move numbers in Array to the right - Ignore Merging
+void right() // Move numbers in Array to the right 
 {
     for (int y = 3; y >= 0; y--)       // Scan Matrix  c - column l - line, scan from right to left
         for (int x = 3; x >= 0; x--)
