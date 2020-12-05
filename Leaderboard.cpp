@@ -7,7 +7,7 @@ void saveLead(char* Username, int Score, struct Leaderboard** sh_first)
 	struct Leaderboard* OLeaderboard; // Old Leaderboard
 	NLeaderboard = (struct Leaderboard*)malloc(sizeof(struct Leaderboard));
 
-	strcpy_s(NLeaderboard->Username, 256, Username);
+	strcpy_s(NLeaderboard->Username, SIZE, Username);
 	NLeaderboard->Score = Score;
 	NLeaderboard->next = NULL;
 
@@ -42,3 +42,4 @@ void saveLead(char* Username, int Score, struct Leaderboard** sh_first)
 		}
 	}
 }
+
