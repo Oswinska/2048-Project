@@ -1,5 +1,6 @@
 #pragma once
 #define SIZE 10
+
 // Game functions
 int mainmenu();
 void game();

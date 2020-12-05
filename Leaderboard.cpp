@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Header.h"
 
-void saveLead(char* Username, int Score, struct Leaderboard** sh_first)
+void saveLead(char* Username, int Score, struct Leaderboard** sh_first) // Save Leaderboard to memory struct -> NOT TO A FILE 
 {
 	struct Leaderboard* NLeaderboard; // New Leaderboard
 	struct Leaderboard* OLeaderboard; // Old Leaderboard
