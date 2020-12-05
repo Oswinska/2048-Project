@@ -1,4 +1,5 @@
 #pragma once
+#define SIZE 10
 // Game functions
 int mainmenu();
 void game();
@@ -18,13 +19,17 @@ int loadstate();
 //GameState
 int WinCon();
 void endgame();
+void endgameLose();
 int adj();
 //Leaderboard Struct
-struct LeaderBoard
+void printLead();
+int savetofile();
+int loadleader();
+struct Leaderboard
 {
-	char Username[256];
+	char Username[SIZE];
 	int Score;
 	struct Leaderboard* next;
 };
-void saveLead(char* Username, int* Score,struct Leaderboard** sh_first);
-//char* Username[256];
+void saveLead(char* Username, int Score,struct Leaderboard** sh_first);
+

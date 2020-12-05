@@ -5,9 +5,10 @@
 #include "Header.h"
 
 int GameBoardMatrix[4][4];
-char Username[256];
+char Username[SIZE];
+struct Leaderboard* first = NULL;
 
-void clearmatrix()
+void clearmatrix() // Fill matrix with zeroes
 {
    for (int y = 0; y < 4; ++y)
     {
@@ -16,9 +17,9 @@ void clearmatrix()
            GameBoardMatrix[x][y] = 0;
        }
     }
-}
+} 
 
-int adj()
+int adj() // Checker for possible movements if Matrix is reaching low available spaces
 {
     int i = 0;
     int help = 0;
@@ -76,7 +77,7 @@ void printBoardMatrix() // Print Board - y Up, Down,  x - Left, Right
     }
 }
 
-int random2()
+int random2() // Generate 2 in a random position
 {
     srand(time(NULL));
     Sleep(1);
@@ -98,13 +99,14 @@ int random2()
 
 int mainmenu() // Main menu
 {
+    int input;
+    do
+    {
     system("cls");
     printf("2048\nNew game: n\nContinue game: c\nLeaderboard: l\nQuit : ESC\n");
 
-    int input;
-    input = controls();
     bool inprogress;
-
+    input = controls();
     switch (input)
     {
     case 110: //New Game
@@ -115,10 +117,11 @@ int mainmenu() // Main menu
             printf("Please enter your username: ");
             scanf_s(" %s", Username, sizeof(Username));
             clearmatrix();
+            random2();
             game();
             inprogress = false;
+
         }
-        mainmenu();
         break;
     case 99:  //Continue game
         inprogress = true;
@@ -126,23 +129,21 @@ int mainmenu() // Main menu
         {
             loadstate();
             game();
-            
             inprogress = false;
         }
-        mainmenu();
         break;
     case 108: //Leaderboard
         system("cls");
-        printf("Lmao leaderboarda here");
-        Sleep(5000); 
-        mainmenu();
+        printLead();
+        printf("\n Press f to continue");
+        while (controls() != 'f');
         break;
     case 27: //ESC
         return 0;
         break;
-    default: mainmenu();
-    }
-
+        }
+    } while (input != 27);
+    return 0;
 }
 
 int score() // Is highscore the highest achieved number or sum of all numbers in the matrix ?
@@ -164,6 +165,7 @@ int loadstate()
     int input = controls();
     int i = 0;
     double loadscore = 0;
+    
     if (input == 49) //load slot1
     {
         FILE* load1;
@@ -174,7 +176,6 @@ int loadstate()
             return(-1);
         }
         system("cls");
-        //it works and I will not question it
         for (int y = 0; y < 4; y++)
         {
             for (int x = 0; x < 4; x++)
@@ -185,21 +186,20 @@ int loadstate()
         }
 
         int loop;
-        char name[256];
         int line = 4;
         int end;
 
         for(end = loop = 0;loop<line;++loop)
         {
-            if(0==fgets(name, sizeof(name), load1))
+            if(0==fgets(Username, sizeof(Username), load1))
             {
                 end = 1;
                 break;
             }
         }
-        
-        printf("\n %s\n", name); //test for correct reading
-        Sleep(5000);
+        printf("\n %s\n", Username); //testing if loading is correct
+        Sleep(1000);
+        printBoardMatrix();
     }
 
     if (input == 50) //load slot2
@@ -212,7 +212,6 @@ int loadstate()
             return(-1);
         }
         system("cls");
-        
         for (int y = 0; y < 4; y++)
         {
             for (int x = 0; x < 4; x++)
@@ -221,18 +220,33 @@ int loadstate()
                     break;
             }
         }
+
+        int loop;
+        int line = 4;
+        int end;
+
+        for (end = loop = 0; loop < line; ++loop)
+        {
+            if (0 == fgets(Username, sizeof(Username), load2))
+            {
+                end = 1;
+                break;
+            }
+        }
+        printf("\n %s\n", Username); //testing if loading is correct
+        Sleep(1000);
+        printBoardMatrix();
     }
     if (input == 51) //load slot3
     {
         FILE* load3;
-        errno_t errorCode3 = fopen_s(&load3, "save_3.dat", "r");
+        errno_t errorCode1 = fopen_s(&load3, "save_3.dat", "r");
         if (load3 == NULL)
         {
             perror("Error opening file");
             return(-1);
         }
         system("cls");
-       
         for (int y = 0; y < 4; y++)
         {
             for (int x = 0; x < 4; x++)
@@ -241,12 +255,27 @@ int loadstate()
                     break;
             }
         }
+
+        int loop;
+        int line = 4;
+        int end;
+
+        for (end = loop = 0; loop < line; ++loop)
+        {
+            if (0 == fgets(Username, sizeof(Username), load3))
+            {
+                end = 1;
+                break;
+            }
+        }
+        printf("\n %s\n", Username); //testing if loading is correct
+        Sleep(1000);
+        printBoardMatrix();
     }
 }
 
 void game() // Main Game Script - put all things in here, Do not bloat code with copying this to ContinueGame, load state and call game
 {
-    random2();
     bool inprogress = true;
     while (inprogress == true)
     {
@@ -256,9 +285,10 @@ void game() // Main Game Script - put all things in here, Do not bloat code with
         inprogress = false;
         else if (WinCon() == 1)
         inprogress = false;
-        else if (adj() == 0)
-        inprogress = false;
-
+        else if (adj() == 0) {
+            inprogress = false;
+            endgameLose();
+        }
     }
 }
 
@@ -286,12 +316,10 @@ int save()
             }
             fprintf(save1, "\n");
         }
-        
-        fprintf(save1, "\nUsername: %s", Username);
+        fprintf(save1, "\n%s", Username);
         fclose(save1);
         printf("Progress Saved");
         Sleep(1000);
-
     }
     if (input == 50) //Save to slot2
     {
@@ -310,13 +338,10 @@ int save()
             }
             fprintf(save2, "\n");
         }
-        
-
         fprintf(save2, "\n%s", Username);
         fclose(save2);
         printf("Progress Saved");
         Sleep(1000);
-        
     }
     if (input == 51) // Save to slot3
     {
@@ -335,20 +360,15 @@ int save()
             }
             fprintf(save3, "\n");
         }
-       
-
-        fprintf(save3, "\nUsername: %s", Username);
+        fprintf(save3, "\n%s", Username);
         fclose(save3);
         printf("Progress Saved");
-        Sleep(1000);
-        
+        Sleep(1000);    
     }
     if (input == 48)
     {
- 
         return 0;
     }
-    
 }
 
 int WinCon() // Check for 2048, if its present, end the game.
@@ -368,10 +388,109 @@ int WinCon() // Check for 2048, if its present, end the game.
     return 0;
 }
 
-void endgame()
+int savetofile()
+{
+    FILE* Leader;
+    errno_t errorCode1 = fopen_s(&Leader, "Leaderboard.dat", "w");
+    if (Leader == NULL)
+    {
+        perror("Error opening file");
+        return(-1);
+    }
+    struct Leaderboard* OLeaderboard = first;
+
+    while (OLeaderboard)
+    {
+        fprintf(Leader, " %s %d\n" , OLeaderboard->Username, OLeaderboard->Score);
+        OLeaderboard = OLeaderboard->next;
+    }
+    fclose(Leader);
+}
+
+int loadleader()
+{
+    FILE* Leader;
+    errno_t errorCode1 = fopen_s(&Leader, "Leaderboard.dat", "r");
+    if (Leader == NULL)
+    {
+        perror("Error opening file");
+        return(-1);
+    }
+    char name[SIZE];
+    char help[SIZE];
+    int num = 0;
+
+    while (!feof(Leader))
+    {
+        if (fscanf_s(Leader, "%s", name, SIZE) > 0)
+        {
+            if (fscanf_s(Leader, "%s",  help, SIZE) > 0)
+            {
+                num = atoi(help);
+            }
+            saveLead(name, num, &first);
+        }
+
+    }
+    fclose(Leader);
+}
+
+void printLead()
+{
+    printf("    __    _________    ____  __________  ____  ____  ___    ____  ____ \n");
+    printf("   / /   / ____/   |  / __  / ____/ __  / __ )/ __  /   |  / __  / __ \ \n");
+    printf("  / /   / __/ / /| | / / / / __/ / /_/ / __  / / / / /| | / /_/ / / / /\n");
+    printf(" / /___/ /___/ ___ |/ /_/ / /___/ _, _/ /_/ / /_/ / ___ |/ _, _/ /_/ / \n");
+    printf("/_____/_____/_/  |_/_____/_____/_/ |_/_____/ ____/_/  |_/_/ |_/_____/  \n\n");
+
+    struct Leaderboard* OLeaderboard = first;
+    while (OLeaderboard)
+    {
+        printf(" %s %d\n", OLeaderboard->Username, OLeaderboard->Score);
+        OLeaderboard = OLeaderboard->next;
+    }
+}
+
+void endgame() // Winning end
 {
     system("cls");
-    Sleep(5000);
+    printf(" _       _______   __\n");
+    printf("| |     / /  _/ | / /\n");
+    printf("| | /| / // //  |/ / \n");
+    printf("| |/ |/ // // /|  /  \n");
+    printf("|__/|__/___/_/ |_/   \n\n\n");
+    printf("Leaderboard\n");
+    saveLead(Username, score(), &first);
+    struct Leaderboard* OLeaderboard = first;
+    while (OLeaderboard)
+    {
+        printf(" %s %d\n", OLeaderboard->Username, OLeaderboard->Score);
+        OLeaderboard = OLeaderboard->next;
+    }
+    savetofile();
+    printf("\n Press f to continue");
+    while (controls() != 'f');
+}
+
+void endgameLose() // ends game if you lose
+{
+    system("cls");
+    printf("    ____  _____________________  ______\n");
+    printf("   / __ / ____/ ____/ ____/   |/_  __/\n");
+    printf("  / / / / __/ / /_  / __/ / /| | / /   \n");
+    printf(" / /_/ / /___/ __/ / /___/ ___ |/ /    \n");
+    printf("/_____/_____/_/   /_____/_/  |_/_/     \n");
+    printf("Leaderboard\n");
+    saveLead(Username, score(), &first);
+    struct Leaderboard* OLeaderboard = first;
+    while (OLeaderboard)
+    {
+        printf(" %s %d\n", OLeaderboard->Username, OLeaderboard->Score);
+        OLeaderboard = OLeaderboard->next;
+    }
+    savetofile();
+    printf("\n Press f to continue");
+    while (controls() != 'f');
 }
 
 void up() // Move numbers in Array up - ignore merging
