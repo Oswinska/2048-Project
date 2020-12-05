@@ -3,8 +3,10 @@
 #include <stdlib.h> 
 #include <time.h>
 #include "Header.h"
+
 int GameBoardMatrix[4][4];
 char Username[256];
+
 void clearmatrix()
 {
    for (int y = 0; y < 4; ++y)
@@ -15,20 +17,6 @@ void clearmatrix()
        }
     }
 }
-/*bool gameOver()           Pokud je pole plné, ukonèí hru. Pokud nepøijdem na nic lepší tak to asi mužem použit jako gameover
-{
-    for (int x = 0; x < 4; x++)
-    {
-        for (int y = 0; y < 4; y++)
-        {
-            if (GameBoardMatrix[x][y] == 0)
-            {
-                return false;     
-            }
-        }
-    }
-    return true;   
-}*/
 
 int adj()
 {
@@ -49,7 +37,6 @@ int adj()
         }
     }
 
-   
     if (help == 0)
     {
         
@@ -69,6 +56,7 @@ int adj()
     }
     return counter;
 }
+
 void printBoardMatrix() // Print Board - y Up, Down,  x - Left, Right
 {
     system("cls");
@@ -190,22 +178,14 @@ int loadstate()
             {
                 if (!fscanf_s(load1, "%d", &GameBoardMatrix[x][y]))
                     break;
-
-
-
             }
-
         }
-       /* 
-     Tahle funkce je schopná pøeèíst  username, ale ani za pièu nevím jak ho uložit do Username aniž bych dojebal všechno ostatní
-     K ètení score se radši ani nebudu vyjadøovat*/
-
-
 
         int loop;
         char name[256];
         int line = 4;
         int end;
+
         for(end = loop = 0;loop<line;++loop)
         {
             if(0==fgets(name, sizeof(name), load1))
@@ -217,8 +197,6 @@ int loadstate()
         
         printf("\n %s\n", name); //test for correct reading
         Sleep(5000);
-
-       ;
     }
 
     if (input == 50) //load slot2
@@ -238,13 +216,8 @@ int loadstate()
             {
                 if (!fscanf_s(load2, "%d", &GameBoardMatrix[x][y]))
                     break;
-
-
-
             }
-
         }
-
     }
     if (input == 51) //load slot3
     {
@@ -263,18 +236,14 @@ int loadstate()
             {
                 if (!fscanf_s(load3, "%d", &GameBoardMatrix[x][y]))
                     break;
-
-
-
             }
-
         }
     }
 }
 
 void game() // Main Game Script - put all things in here, Do not bloat code with copying this to ContinueGame, load state and call game
 {
-    random2(); //this needs to be ignored afer we load a game
+    random2(); //this needs to be ignored once afer we load a game
     bool inprogress = true;
     while (inprogress == true)
     {
@@ -283,13 +252,10 @@ void game() // Main Game Script - put all things in here, Do not bloat code with
         if (input == 0)
         inprogress = false;
         if (WinCon() == 1)
-            inprogress = false;
-        if (adj() != 0)
-            inprogress = false;
-        /*if (gameOver() == 1)
-            inprogress = false;*/
+        inprogress = false;
+        if (adj() == 0)
+        inprogress = false;
     }
-    endgame();
 }
 
 int save()
@@ -317,12 +283,11 @@ int save()
             fprintf(save1, "\n");
         }
         
-
         fprintf(save1, "\nUsername: %s", Username);
         fclose(save1);
-        printf("Save complete");
+        printf("Progress Saved");
         Sleep(1000);
-        
+
     }
     if (input == 50) //Save to slot2
     {
@@ -345,7 +310,7 @@ int save()
 
         fprintf(save2, "\n%s", Username);
         fclose(save2);
-        printf("Save complete");
+        printf("Progress Saved");
         Sleep(1000);
         
     }
@@ -370,7 +335,7 @@ int save()
 
         fprintf(save3, "\nUsername: %s", Username);
         fclose(save3);
-        printf("Save complete");
+        printf("Progress Saved");
         Sleep(1000);
         
     }
@@ -402,11 +367,8 @@ int WinCon() // Check for 2048, if its present, end the game.
 void endgame()
 {
     system("cls");
-    printf("Nice");
     Sleep(5000);
 }
-
-
 
 void up() // Move numbers in Array up - ignore merging
 {
