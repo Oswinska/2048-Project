@@ -4,7 +4,7 @@ int mainmenu();
 void game();
 void clearmatrix();
 void printBoardMatrix();
-void random2();
+int random2();
 int gamecontrols();
 //Controls
 int controls();
@@ -27,3 +27,4 @@ struct LeaderBoard
 	struct Leaderboard* next;
 };
 void saveLead(char* Username, int* Score,struct Leaderboard** sh_first);
+//char* Username[256];

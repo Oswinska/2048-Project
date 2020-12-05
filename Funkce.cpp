@@ -76,7 +76,7 @@ void printBoardMatrix() // Print Board - y Up, Down,  x - Left, Right
     }
 }
 
-void random2()
+int random2()
 {
     srand(time(NULL));
     Sleep(1);
@@ -88,8 +88,12 @@ void random2()
         GameBoardMatrix[x][y] = 2;
         printBoardMatrix();
     }
+    else if (adj() == 0)
+    {
+        return -1;
+    }
     else
-        random2();
+    random2();
 }
 
 int mainmenu() // Main menu
@@ -120,7 +124,6 @@ int mainmenu() // Main menu
         inprogress = true;
         while (inprogress == true)
         {
-            controls();
             loadstate();
             game();
             
@@ -243,7 +246,7 @@ int loadstate()
 
 void game() // Main Game Script - put all things in here, Do not bloat code with copying this to ContinueGame, load state and call game
 {
-    random2(); //this needs to be ignored once afer we load a game
+    random2();
     bool inprogress = true;
     while (inprogress == true)
     {
@@ -251,10 +254,11 @@ void game() // Main Game Script - put all things in here, Do not bloat code with
         printf(" score: %d", score());
         if (input == 0)
         inprogress = false;
-        if (WinCon() == 1)
+        else if (WinCon() == 1)
         inprogress = false;
-        if (adj() == 0)
+        else if (adj() == 0)
         inprogress = false;
+
     }
 }
 
