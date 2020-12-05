@@ -7,7 +7,7 @@
 int GameBoardMatrix[4][4];
 char Username[256];
 
-void clearmatrix()
+void clearmatrix() // Fill matrix with zeroes
 {
    for (int y = 0; y < 4; ++y)
     {
@@ -16,9 +16,9 @@ void clearmatrix()
            GameBoardMatrix[x][y] = 0;
        }
     }
-}
+} 
 
-int adj()
+int adj() // Checker for possible movements if Matrix is reaching low available spaces
 {
     int i = 0;
     int help = 0;
@@ -76,7 +76,7 @@ void printBoardMatrix() // Print Board - y Up, Down,  x - Left, Right
     }
 }
 
-int random2()
+int random2() // Generate 2 in a random position
 {
     srand(time(NULL));
     Sleep(1);
@@ -98,13 +98,14 @@ int random2()
 
 int mainmenu() // Main menu
 {
+    int input;
+    do
+    {
     system("cls");
     printf("2048\nNew game: n\nContinue game: c\nLeaderboard: l\nQuit : ESC\n");
 
-    int input;
-    input = controls();
     bool inprogress;
-
+    input = controls();
     switch (input)
     {
     case 110: //New Game
@@ -118,7 +119,7 @@ int mainmenu() // Main menu
             game();
             inprogress = false;
         }
-        mainmenu();
+        
         break;
     case 99:  //Continue game
         inprogress = true;
@@ -129,20 +130,21 @@ int mainmenu() // Main menu
             
             inprogress = false;
         }
-        mainmenu();
+       
         break;
     case 108: //Leaderboard
         system("cls");
-        printf("Lmao leaderboarda here");
+        printLead();
         Sleep(5000); 
-        mainmenu();
+        
         break;
     case 27: //ESC
         return 0;
         break;
-    default: mainmenu();
-    }
-
+   
+        }
+    } while (input != 27);
+    return 0;
 }
 
 int score() // Is highscore the highest achieved number or sum of all numbers in the matrix ?
@@ -164,6 +166,7 @@ int loadstate()
     int input = controls();
     int i = 0;
     double loadscore = 0;
+    
     if (input == 49) //load slot1
     {
         FILE* load1;
@@ -371,8 +374,22 @@ int WinCon() // Check for 2048, if its present, end the game.
 void endgame()
 {
     system("cls");
+    printf("You've won absolutely nothing!");
     Sleep(5000);
 }
+
+void printLead()
+{
+    struct Leaderboard* first = NULL;
+    struct Leaderboard* OLeaderboard = first;
+
+    while (OLeaderboard)
+    {
+        printf("%s %d", OLeaderboard->Username, score());
+        OLeaderboard = OLeaderboard->next;
+    }
+}
+
 
 void up() // Move numbers in Array up - ignore merging
 {

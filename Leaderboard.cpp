@@ -1,10 +1,44 @@
 #include <iostream>
 #include "Header.h"
-/*
-void saveLead()
+
+void saveLead(char* Username, int Score, struct Leaderboard** sh_first)
 {
 	struct Leaderboard* NLeaderboard; // New Leaderboard
 	struct Leaderboard* OLeaderboard; // Old Leaderboard
 	NLeaderboard = (struct Leaderboard*)malloc(sizeof(struct Leaderboard));
 
-}*/
+	strcpy_s(NLeaderboard->Username, 256, Username);
+	NLeaderboard->Score = Score;
+	NLeaderboard->next = NULL;
+
+	if (*sh_first == NULL)
+	{
+		*sh_first = NLeaderboard;
+		return;
+	}
+	else if (NLeaderboard->Score > (*sh_first)->Score)
+	{
+		NLeaderboard->next = *sh_first;
+		*sh_first = NLeaderboard;
+		return;
+	}
+
+	OLeaderboard = *sh_first;
+	while (OLeaderboard)
+	{
+		{
+			if (OLeaderboard->next == NULL)
+			{
+				OLeaderboard->next = NLeaderboard;
+				return;
+			}
+			else if (OLeaderboard->Score > OLeaderboard->next->Score)
+			{
+				NLeaderboard->next = OLeaderboard->next;
+				OLeaderboard->next = NLeaderboard;
+				return;
+			}
+			OLeaderboard = OLeaderboard->next;
+		}
+	}
+}

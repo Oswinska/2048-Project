@@ -20,11 +20,10 @@ int WinCon();
 void endgame();
 int adj();
 //Leaderboard Struct
-struct LeaderBoard
+struct Leaderboard
 {
 	char Username[256];
 	int Score;
 	struct Leaderboard* next;
 };
-void saveLead(char* Username, int* Score,struct Leaderboard** sh_first);
-//char* Username[256];
+void saveLead(char* Username, int Score,struct Leaderboard** sh_first);
