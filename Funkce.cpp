@@ -127,8 +127,6 @@ void clearmatrix() // Fill matrix with zeroes
 }
 int random2() // Generate 2 in a random position
 {
-    srand(time(NULL));
-    Sleep(1);
     int x = rand() % 4;
     int y = rand() % 4;
 
@@ -147,10 +145,8 @@ int random2() // Generate 2 in a random position
 
 
 
-
-
 //loading and saving functions
-int loadstate()
+int loadstate() // Load State from X slot
 {
     system("cls");
     printf("Choose save slot 1, 2 or 3: ");
@@ -261,7 +257,7 @@ int loadstate()
     }
 }
 
-int save()
+int save() // Save State to X slot
 {
     bool inprogress = true;
     printf("Choose save slot 1, 2 or 3: ");
@@ -359,7 +355,7 @@ int savetofile()//save state of leaderboard to file
     fclose(Leader);
 }
 
-int loadleader() //load the state of leaderboard, suicidal function
+int loadleader() //load the state of leaderboard from a file, suicidal function
 {
     FILE* Leader;
     errno_t errorCode1 = fopen_s(&Leader, "Leaderboard.dat", "r");
@@ -443,7 +439,7 @@ int adj() // Checker for possible movements if Matrix is reaching low available 
     return counter;
 }
 
-void printLead()
+void printLead() // Main menu only Leaderboard printer
 {
     printf("    __    _________    ____  __________  ____  ____  ___    ____  ____ \n");
     printf("   / /   / ____/   |  / __  / ____/ __  / __ )/ __  /   |  / __  / __ \ \n");
