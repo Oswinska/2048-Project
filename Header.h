@@ -1,5 +1,5 @@
 #pragma once
-#define SIZE 10
+#define SIZE 22
 
 // Game functions
 int mainmenu();
