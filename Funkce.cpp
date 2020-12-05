@@ -159,25 +159,27 @@ int loadstate()
         }
        /* 
      Tahle funkce je schopná pøeèíst  username, ale ani za pièu nevím jak ho uložit do Username aniž bych dojebal všechno ostatní
-     K ètení score se radši ani nebudu vyjadøovat
+     K ètení score se radši ani nebudu vyjadøovat*/
 
 
 
         int loop;
         char name[256];
         int line = 4;
-
-        for (end = loop = 0; loop < line; ++loop) {
-            if (0 == fgets(name, sizeof(name), load1)) {//include '\n'
-                
+        int end;
+        for(end = loop = 0;loop<line;++loop)
+        {
+            if(0==fgets(name, sizeof(name), load1))
+            {
+                end = 1;
                 break;
             }
         }
         
-            printf("\n %s\n", name) 
+        printf("\n %s\n", name); //test for correct reading
         Sleep(5000);
 
-       ;*/
+       ;
     }
 
     if (input == 50) //load slot2
