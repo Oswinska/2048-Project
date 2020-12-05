@@ -416,22 +416,23 @@ int loadleader()
         perror("Error opening file");
         return(-1);
     }
-    int loop;
     char name[SIZE];
-    int num = 10;
-    int line = 10;
-    int end;
+    char help[SIZE];
+    int num = 0;
 
-    for (end = loop = 0; loop < line; ++loop)
+    while (!feof(Leader))
     {
-        if (0 == fgets(name, sizeof(name), Leader))
+        if (fscanf_s(Leader, "%s", name, SIZE) > 0)
         {
-            end = 1;
-            break;
+            if (fscanf_s(Leader, "%s",  help, SIZE) > 0)
+            {
+                num = atoi(help);
+            }
+            saveLead(name, num, &first);
         }
 
     }
-    saveLead(name, num, &first);
+    fclose(Leader);
 }
 
 void printLead()

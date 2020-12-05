@@ -32,7 +32,7 @@ void saveLead(char* Username, int Score, struct Leaderboard** sh_first)
 				OLeaderboard->next = NLeaderboard;
 				return;
 			}
-			else if (OLeaderboard->Score > OLeaderboard->next->Score)
+			else if (NLeaderboard->Score > OLeaderboard->next->Score)
 			{
 				NLeaderboard->next = OLeaderboard->next;
 				OLeaderboard->next = NLeaderboard;
