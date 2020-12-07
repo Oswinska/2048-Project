@@ -383,7 +383,7 @@ int loadleader() //load the state of leaderboard from a file, suicidal function
     fclose(Leader);
 }
 
-//Win/loose funcitons
+//Win/lose functions
 int WinCon() // Check for 2048, if its present, end the game.
 {
     int max = GameBoardMatrix[0][0];
@@ -442,7 +442,7 @@ int adj() // Checker for possible movements if Matrix is reaching low available 
 void printLead() // Main menu only Leaderboard printer
 {
     printf("    __    _________    ____  __________  ____  ____  ___    ____  ____ \n");
-    printf("   / /   / ____/   |  / __  / ____/ __  / __ )/ __  /   |  / __  / __ \ \n");
+    printf("   / /   / ____/   |  / __  / ____/ __  / __ )/ __  /   |  / __  / __ | \n");
     printf("  / /   / __/ / /| | / / / / __/ / /_/ / __  / / / / /| | / /_/ / / / /\n");
     printf(" / /___/ /___/ ___ |/ /_/ / /___/ _, _/ /_/ / /_/ / ___ |/ _, _/ /_/ / \n");
     printf("/_____/_____/_/  |_/_____/_____/_/ |_/_____/ ____/_/  |_/_/ |_/_____/  \n\n");
